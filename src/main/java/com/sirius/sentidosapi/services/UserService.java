@@ -18,4 +18,6 @@ public interface UserService {
     void updateUser(Long id, UserEditingDTO requestedUser);
 
     void deleteUser(Long id);
+
+    boolean existsByUsername(String username);
 }

@@ -9,19 +9,27 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.codec.cbor.Jackson2CborEncoder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-@Service
-public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
+import static java.lang.String.format;
 
-    public UserServiceImpl(UserRepository userRepository) {
+@Service
+public class UserServiceImpl implements UserService, UserDetailsService {
+    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -56,8 +64,7 @@ public class UserServiceImpl implements UserService {
 
         user.setEmail(requestedUser.getEmail());
         user.setUsername(requestedUser.getUsername());
-        user.setPassword(requestedUser.getPassword());
-        // user.setPassword(passwordEncoder.encode(requestUser.getPassword()));
+        user.setPassword(passwordEncoder.encode(requestedUser.getPassword()));
         user.setFirstName(requestedUser.getFirstName());
         user.setLastName(requestedUser.getLastName());
 
@@ -66,17 +73,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(Long id, UserEditingDTO requestedUser) {
-        if (userRepository.existsByUsername(requestedUser.getUsername())) {
-            throw new IllegalArgumentException("Existing user name!");
-        }
 
         User userFromDb = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found!"));
 
+        if (!Objects.equals(userFromDb.getUsername(), requestedUser.getUsername())) {
+            if (userRepository.existsByUsername(requestedUser.getUsername())) {
+                throw new IllegalArgumentException("Existing user name!");
+            }
+        }
+
         userFromDb.setEmail(requestedUser.getEmail());
         userFromDb.setUsername(requestedUser.getUsername());
-        userFromDb.setPassword(requestedUser.getPassword());
-        // userFromDb.setPassword(passwordEncoder.encode(requestedUser.getPassword()));
+        userFromDb.setPassword(passwordEncoder.encode(requestedUser.getPassword()));
         userFromDb.setFirstName(requestedUser.getFirstName());
         userFromDb.setLastName(requestedUser.getLastName());
 
@@ -86,5 +95,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    @Override
+    public User loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        format("User: %s, not found", username))
+                );
     }
 }
