@@ -1,9 +1,9 @@
-package com.sirius.sentidosapi.model.client;
+package com.sirius.sentidosapi.model.customer;
 
 import lombok.Data;
 
 @Data
-public class ClientEditingDTO {
+public class CustomerEditingDTO {
     String firstName;
     String lastName;
     String address;

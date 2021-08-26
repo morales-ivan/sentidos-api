@@ -27,12 +27,12 @@ public class UserController {
     @GetMapping("/{pageNumber}")
     public Page<UserListingDTO> getPaginatedUsers(@RequestParam(required = false) Integer pageSize,
                                                   @PathVariable Integer pageNumber) {
-        if (pageSize == null) pageSize = 5;
-        pageNumber += 1;
+        if (pageSize == null) pageSize = 10;
+        pageNumber -= 1;
         return userService.getPaginatedUsers(pageSize, pageNumber);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/id/{userId}")
     public UserListingDTO getUser(@PathVariable Long userId) {
         return userService.getUserById(userId);
     }
