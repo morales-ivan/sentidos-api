@@ -14,12 +14,12 @@ import static java.lang.String.format;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtTokenUtil {
-    private final String jwtSecret = "zdtlD3JK56m6wTTgsNFhqzjqP";
+    private final String jwtSecret = "tKYUnN7kHeHvN2vCfjU0wvgC8p4673FJ5zf+98zudSf5RcDPCleulFzpeSv+xDbwg9AhQ3uGTKTL11esibyltF3WGsLnm5X+bpLL07nLVyfEn/uN+SbouDsMnDxJ1Ik5LqccN77luVq+jn4m9mpZK+5pY3AA1ltJqQSyRmgp73BY2DrBFf5gkIGUyLTQF1i349U4xaPnso98wjaWtSQmDxo685m4zvVH87V2RQ==";
     private final String jwtIssuer = "sirius.sentidos-api";
 
     public String generateAccessToken(User user) {
         return Jwts.builder()
-                .setSubject(format("%s,%s", user.getId(), user.getUsername()))
+                .setSubject(user.getUsername())
                 .setIssuer(jwtIssuer)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000)) // 1 week
@@ -27,23 +27,13 @@ public class JwtTokenUtil {
                 .compact();
     }
 
-    public String getUserId(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(jwtSecret)
-                .parseClaimsJws(token)
-                .getBody();
-
-        return claims.getSubject().split(",")[0];
-    }
-
-
     public String getUsername(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
                 .getBody();
 
-        return claims.getSubject().split(",")[1];
+        return claims.getSubject();
     }
 
     public Date getExpirationDate(String token) {
