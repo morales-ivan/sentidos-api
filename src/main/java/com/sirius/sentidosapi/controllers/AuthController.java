@@ -1,5 +1,6 @@
 package com.sirius.sentidosapi.controllers;
 
+import com.sirius.sentidosapi.config.security.JWT;
 import com.sirius.sentidosapi.config.security.JwtTokenUtil;
 import com.sirius.sentidosapi.model.user.User;
 import com.sirius.sentidosapi.model.user.UserAuthenticationDTO;
@@ -28,20 +29,20 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserListingDTO> login(@RequestBody UserAuthenticationDTO request) {
+    public ResponseEntity<JWT> login(@RequestBody UserAuthenticationDTO requestedUser) {
         try {
             Authentication authenticate = authenticationManager
                     .authenticate(
                             new UsernamePasswordAuthenticationToken(
-                                    request.getUsername(), request.getPassword()
+                                    requestedUser.getUsername(), requestedUser.getPassword()
                             )
                     );
 
             User user = (User) authenticate.getPrincipal();
 
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.AUTHORIZATION, jwtTokenUtil.generateAccessToken(user))
-                    .body(UserListingDTO.fromUser(user));
+            return ResponseEntity.ok().body(new JWT(jwtTokenUtil.generateAccessToken(user)));
+//                    .header(HttpHeaders.AUTHORIZATION, jwtTokenUtil.generateAccessToken(user))
+//                    .body(UserListingDTO.fromUser(user));
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

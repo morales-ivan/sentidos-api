@@ -25,11 +25,6 @@ public class Customer {
     private String id;
 
     @Column(length = 12, nullable = false, updatable = false, unique = true)
-    // @GeneratorType(type = CustomerNumberGenerator.class, when = GenerationTime.INSERT)
-
-//    @GeneratedValue(generator = "custnumber-generator")
-//    @GenericGenerator(name = "custnumber-generator",
-//            strategy = "com.sirius.sentidosapi.model.generators.CustomerNumberGenerator")
     private String customerNumber;
 
     private String firstName;

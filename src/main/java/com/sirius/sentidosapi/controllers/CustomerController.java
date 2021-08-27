@@ -17,15 +17,14 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/{pageNumber}")
+    @GetMapping("/get-all/{pageNumber}")
     public Page<CustomerListingDTO> getCustomers(@RequestParam(required = false) Integer pageSize,
                                                  @PathVariable Integer pageNumber) {
         if (pageSize == null) pageSize = 10;
-        pageNumber -= 1;
         return customerService.getCustomers(pageSize, pageNumber);
     }
 
-    @GetMapping("/id/{customerId}")
+    @GetMapping("/{customerId}")
     public CustomerListingDTO getCustomer(@PathVariable String customerId) {
         return customerService.getCustomerById(customerId);
     }

@@ -7,11 +7,12 @@ import lombok.Data;
 @AllArgsConstructor
 public class CustomerListingDTO {
     String id;
+    String customerNumber;
     String firstName;
     String lastName;
     String address;
 
     public static CustomerListingDTO fromCustomer(Customer c) {
-        return new CustomerListingDTO(c.getId(), c.getFirstName(), c.getLastName(), c.getAddress());
+        return new CustomerListingDTO(c.getId(), c.getCustomerNumber(), c.getFirstName(), c.getLastName(), c.getAddress());
     }
 }
