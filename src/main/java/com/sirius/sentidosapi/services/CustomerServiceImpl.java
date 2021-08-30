@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
-    CustomerRepository customerRepository;
-    CustomerNumberGenerator customerNumberGenerator;
+    final CustomerRepository customerRepository;
+    final CustomerNumberGenerator customerNumberGenerator;
 
     public CustomerServiceImpl(CustomerRepository customerRepository,
                                CustomerNumberGenerator customerNumberGenerator) {

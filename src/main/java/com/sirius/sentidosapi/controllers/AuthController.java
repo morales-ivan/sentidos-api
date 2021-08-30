@@ -4,8 +4,6 @@ import com.sirius.sentidosapi.config.security.JWT;
 import com.sirius.sentidosapi.config.security.JwtTokenUtil;
 import com.sirius.sentidosapi.model.user.User;
 import com.sirius.sentidosapi.model.user.UserAuthenticationDTO;
-import com.sirius.sentidosapi.model.user.UserListingDTO;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

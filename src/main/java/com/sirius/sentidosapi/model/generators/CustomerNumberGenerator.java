@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerNumberGenerator {
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
     private final RandomString generator = new RandomString(12);
 
     public CustomerNumberGenerator(CustomerRepository customerRepository) {
