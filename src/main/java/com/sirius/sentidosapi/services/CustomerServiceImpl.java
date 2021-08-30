@@ -37,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerListingDTO getCustomerById(String id) {
         Customer customer = customerRepository.findById(id).orElseThrow(()
-            -> new IllegalArgumentException("Customer not found"));
+            -> new IllegalArgumentException("Customer not found!"));
         return CustomerListingDTO.fromCustomer(customer);
     }
 
