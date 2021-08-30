@@ -40,4 +40,12 @@ public class Customer {
     LocalDateTime createdAt;
     @UpdateTimestamp
     LocalDateTime updatedAt;
+
+    public Customer(String id, String customerNumber, String firstName, String lastName, String address) {
+        this.setId(id);
+        this.setCustomerNumber(customerNumber);
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setAddress(address);
+    }
 }
