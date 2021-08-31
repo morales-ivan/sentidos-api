@@ -2,17 +2,19 @@ package com.sirius.sentidosapi.config.security;
 
 import com.sirius.sentidosapi.model.user.User;
 import io.jsonwebtoken.*;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 @Component
-@RequiredArgsConstructor
 @Slf4j
 public class JwtTokenUtil {
-    private final String jwtSecret = "tKYUnN7kHeHvN2vCfjU0wvgC8p4673FJ5zf+98zudSf5RcDPCleulFzpeSv+xDbwg9AhQ3uGTKTL11esibyltF3WGsLnm5X+bpLL07nLVyfEn/uN+SbouDsMnDxJ1Ik5LqccN77luVq+jn4m9mpZK+5pY3AA1ltJqQSyRmgp73BY2DrBFf5gkIGUyLTQF1i349U4xaPnso98wjaWtSQmDxo685m4zvVH87V2RQ==";
+
+    @Value("${jwt_secret}")
+    private String jwtSecret;
+
     private final String jwtIssuer = "sirius.sentidos-api";
 
     public String generateAccessToken(User user) {
