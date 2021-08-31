@@ -1,6 +1,5 @@
 package com.sirius.sentidosapi.model.customer;
 
-import com.sirius.sentidosapi.model.generators.CustomerNumberGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

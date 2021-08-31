@@ -4,20 +4,16 @@ import com.sirius.sentidosapi.model.user.UserEditingDTO;
 import com.sirius.sentidosapi.model.user.UserListingDTO;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 public interface UserService {
-    List<UserListingDTO> getUsers();
+    Page<UserListingDTO> getUsers(Integer pageSize, Integer pageNumber);
 
-    Page<UserListingDTO> getPaginatedUsers(Integer pageSize, Integer pageNumber);
-
-    UserListingDTO getUserById(Long id);
+    UserListingDTO getUserById(String id);
 
     UserListingDTO save(UserEditingDTO requestedUser);
 
-    void updateUser(Long id, UserEditingDTO requestedUser);
+    void updateUser(String id, UserEditingDTO requestedUser);
 
-    void deleteUser(Long id);
+    void deleteUser(String id);
 
     boolean existsByUsername(String username);
 }

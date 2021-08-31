@@ -9,14 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.codec.cbor.Jackson2CborEncoder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -24,8 +20,8 @@ import static java.lang.String.format;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -33,13 +29,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<UserListingDTO> getUsers() {
-        List<User> users = new ArrayList<>((Collection<? extends User>) userRepository.findAll());
-        return users.stream().map(UserListingDTO::fromUser).collect(Collectors.toList());
-    }
-
-    @Override
-    public Page<UserListingDTO> getPaginatedUsers(Integer pageSize, Integer pageNumber) {
+    public Page<UserListingDTO> getUsers(Integer pageSize, Integer pageNumber) {
         Pageable pageRequest = PageRequest.of(pageNumber, pageSize);
         Page<User> paginatedUsers = userRepository.findAll(PageRequest.of(pageNumber, pageSize));
         return new PageImpl<>(paginatedUsers.getContent().stream()
@@ -49,7 +39,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserListingDTO getUserById(Long id) {
+    public UserListingDTO getUserById(String id) {
         User user = userRepository.findById(id).orElseThrow(()
                 -> new IllegalArgumentException("User not found"));
         return UserListingDTO.fromUser(user);
@@ -72,7 +62,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void updateUser(Long id, UserEditingDTO requestedUser) {
+    public void updateUser(String id, UserEditingDTO requestedUser) {
 
         User userFromDb = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found!"));
@@ -93,7 +83,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(String id) {
         userRepository.deleteById(id);
     }
 
