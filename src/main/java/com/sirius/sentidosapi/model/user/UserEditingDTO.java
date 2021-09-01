@@ -9,4 +9,5 @@ public class UserEditingDTO {
     String password;
     String firstName;
     String lastName;
+    Role role;
 }

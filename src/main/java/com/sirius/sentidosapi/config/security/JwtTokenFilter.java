@@ -1,5 +1,6 @@
 package com.sirius.sentidosapi.config.security;
 
+import com.sirius.sentidosapi.model.user.User;
 import com.sirius.sentidosapi.repositories.UserRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,15 +47,15 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
 
         // Get user identity and set it on the spring security context
-        UserDetails userDetails = userRepository
+        User user = userRepository
                 .findByUsername(jwtTokenUtil.getUsername(token))
                 .orElse(null);
 
         UsernamePasswordAuthenticationToken
-                authentication = new UsernamePasswordAuthenticationToken(
-                userDetails, null,
-                userDetails == null ?
-                        List.of() : userDetails.getAuthorities()
+        authentication = new UsernamePasswordAuthenticationToken(
+        user, null,
+        user == null ?
+                List.of() : user.getAuthorities()
         );
 
         authentication.setDetails(
