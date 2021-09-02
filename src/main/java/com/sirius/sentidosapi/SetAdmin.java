@@ -17,7 +17,7 @@ public class SetAdmin implements ApplicationRunner {
     @Value("${admin_password}")
     String adminPassword;
 
-    UserService userService;
+    final UserService userService;
 
     public SetAdmin(UserService userService) {
         this.userService = userService;
@@ -26,7 +26,7 @@ public class SetAdmin implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         if (!userService.existsByUsername(adminUsername)) {
-            log.info("ADMIN user not found, creating user...");
+            log.info("Admin user not found, creating user...");
             UserEditingDTO adminUser = new UserEditingDTO();
 
             adminUser.setUsername(adminUsername);
@@ -34,7 +34,7 @@ public class SetAdmin implements ApplicationRunner {
             adminUser.setRole(Role.ADMIN);
 
             userService.save(adminUser);
-            log.info("ADMIN user created");
+            log.info("Admin user created");
         } else log.info("ADMIN user found, avoiding creation.");
     }
 }

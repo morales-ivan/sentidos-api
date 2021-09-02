@@ -37,6 +37,16 @@ public class JwtTokenUtil {
         return claims.getSubject();
     }
 
+//    TODO Build getRole/getAuthorities method
+//    public String getAuthorities(String token) {
+//        Claims claims = Jwts.parser()
+//                .setSigningKey(jwtSecret)
+//                .parseClaimsJws(token)
+//                .getBody();
+//
+//        return claims.get("role");
+//    }
+
     public Date getExpirationDate(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
