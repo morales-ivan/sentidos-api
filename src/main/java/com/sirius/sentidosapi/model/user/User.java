@@ -14,6 +14,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
@@ -35,9 +36,8 @@ public class User implements UserDetails {
     @Column
     String lastName;
 
-    @Column(nullable = false)
+    @Column
     @Email
-    @NotNull
     String email;
 
     @Column(unique = true, nullable = false)
@@ -54,9 +54,13 @@ public class User implements UserDetails {
     @UpdateTimestamp
     LocalDateTime updatedAt;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new ArrayList<>();
+        return List.of(role);
     }
 
     @Override
