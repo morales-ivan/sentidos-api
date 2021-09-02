@@ -23,7 +23,7 @@ public class CustomerServiceImplTest {
 
     @BeforeEach
     void setup() {
-        this.customerService = new CustomerServiceImpl(customerRepository, customerNumberGenerator);
+        this.customerService = new CustomerServiceImpl(customerRepository, customerNumberGenerator, mediaRepository);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class CustomerServiceImplTest {
     @Test
     @DisplayName("Test should pass if the findCustomerById method throws an exception for a Customer not found")
     void shouldThrowCustomerNotFound() {
-        CustomerService customerService = new CustomerServiceImpl(customerRepository, customerNumberGenerator);
+        CustomerService customerService = new CustomerServiceImpl(customerRepository, customerNumberGenerator, mediaRepository);
 
         Mockito.when(customerRepository.findById("asd987fsad87f0987s")).thenReturn(Optional.empty());
 
@@ -70,7 +70,7 @@ public class CustomerServiceImplTest {
     @Test
     @DisplayName("Test should pass when the save method returns the ListingDTO with the data from the passed EditingDTO")
     void returnListingDtoWhenSavingEditingDTO() {
-        CustomerService customerService = new CustomerServiceImpl(customerRepository, customerNumberGenerator);
+        CustomerService customerService = new CustomerServiceImpl(customerRepository, customerNumberGenerator, mediaRepository);
 
         Mockito.when(customerNumberGenerator.generate()).thenReturn("AJ32LIU98S1W");
 
