@@ -1,5 +1,6 @@
 package com.sirius.sentidosapi.model.customer;
 
+import com.sirius.sentidosapi.model.media.Media;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,8 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "customers")
@@ -31,6 +34,9 @@ public class Customer {
     private String lastName;
 
     private String address;
+
+    @OneToMany
+    private Set<Media> media = new HashSet<>();
 
     private boolean deleted = Boolean.FALSE;
 
