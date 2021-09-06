@@ -1,0 +1,24 @@
+logging:
+    level:
+        org:
+            hibernate:
+                tool:
+                    hbm2ddl: DEBUG
+            springframework:
+                security: DEBUG
+spring:
+    datasource:
+        url: jdbc:h2:mem:sentidos;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+        driver-class-name: org.h2.Driver
+        username: sa
+        password: password
+    flyway:
+        enabled: false
+        url: jdbc:h2:mem:sentidos
+    jpa:
+        hibernate:
+            ddl-auto: create
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.H2Dialect
+        show-sql: true
