@@ -8,10 +8,10 @@ logging:
                 security: DEBUG
 spring:
     datasource:
-        url: jdbc:postgresql://localhost:5432/sentidos
+        url: jdbc:postgresql://sentidos-db:5432/sentidos
         driverClassName: org.postgresql.Driver
-        username: sa
-        password: password
+        username: sirius
+        password: BlackPanther
     flyway:
         enabled: true
     jpa:
