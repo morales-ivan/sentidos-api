@@ -5,19 +5,18 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?err}
     volumes:
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - sentidosdb-data:/var/lib/postgresql/data
   sentidos-api:
-    build: .
-    image: sirius/sentidos-api:1.0
+    image: ghcr.io/morales-ivan/sentidos-api-dev:latest
     ports:
       - "8080:8080"
     environment:
-      - JWT_SECRET=tKYUnN7kHeHvN2vCfjU0wvgC8p4673FJ5zf+98zudSf5RcDPCleulFzpeSv+xDbwg9AhQ3uGTKTL11esibyltF3WGsLnm5X+bpLL07nLVyfEn/uN+SbouDsMnDxJ1Ik5LqccN77luVq+jn4m9mpZK+5pY3AA1ltJqQSyRmgp73BY2DrBFf5gkIGUyLTQF1i349U4xaPnso98wjaWtSQmDxo685m4zvVH87V2RQ\=\=
-      - ADMIN_USERNAME=ADMIN
-      - ADMIN_PASSWORD=PancreasRunner
+      - JWT_SECRET=${JWT_SECRET:?err}
+      - ADMIN_USERNAME=${ADMIN_USERNAME:?err}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:?err}
 volumes:
   sentidosdb-data:
     driver: local

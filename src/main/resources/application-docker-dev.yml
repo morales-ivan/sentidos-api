@@ -8,7 +8,7 @@ logging:
                 security: DEBUG
 spring:
     datasource:
-        url: jdbc:postgresql://localhost:5432/sentidos
+        url: jdbc:postgresql://sentidos-db:5432/sentidos
         driverClassName: org.postgresql.Driver
         username: sirius
         password: BlackPanther

@@ -10,4 +10,4 @@ EXPOSE 8080
 RUN mkdir /home/sentidos-api
 
 COPY --from=build_image /home/sentidos-api/src/build/libs/sentidos-api-0.0.1-SNAPSHOT.jar /home/sentidos-api/sentidos-api.jar
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=dev", "/home/sentidos-api/sentidos-api.jar"]
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=docker-dev", "/home/sentidos-api/sentidos-api.jar"]
