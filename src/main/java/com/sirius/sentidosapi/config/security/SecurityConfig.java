@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import static java.lang.String.format;
 
+import java.util.Collections;
+
 @EnableWebSecurity
 @Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -58,28 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // Enable CORS and disable CSRF
-        http = http.cors().and().csrf().disable();
-
-        // Set session management to stateless
-        http = http
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and();
-
-        // Set unauthorized requests exception handler
-        http = http
-                .exceptionHandling()
-                .authenticationEntryPoint(
-                        (request, response, ex) -> {
-                            log.error("Unauthorized request - {}", ex.getMessage());
-                            response.sendError(
-                                    HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
-                        }
-                )
-                .and();
-
-        // Set permissions on endpoints
-        http.authorizeRequests()
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
                 // Swagger public doc
                 .antMatchers( "/v2/api-docs",
                         "/configuration/ui",
@@ -96,13 +78,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/v1/customer").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/v1/user/*",
                         "/api/v1/customer/*").hasAuthority("ADMIN")
-                .anyRequest().authenticated();
-
-        // Add JWT token filter
-        http.addFilterBefore(
-                jwtTokenFilter,
-                UsernamePasswordAuthenticationFilter.class
-        );
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(
+                        (request, response, ex) -> {
+                            log.error("Unauthorized request - {}", ex.getMessage());
+                            response.sendError(
+                                    HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
+                        }
+                )
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(this.jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     // Used by spring security if CORS is enabled.
@@ -111,7 +101,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
+        // config.setAllowCredentials(true);
+        config.setAllowedOrigins(Collections.singletonList("*"));
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
