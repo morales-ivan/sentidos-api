@@ -74,6 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
                 // Private endpoints
+                .antMatchers(HttpMethod.POST, "/api/v1/get-presigned-url").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/v1/user",
                         "/api/v1/customer").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/v1/user/*",
