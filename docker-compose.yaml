@@ -18,6 +18,10 @@ services:
       - JWT_SECRET=tKYUnN7kHeHvN2vCfjU0wvgC8p4673FJ5zf+98zudSf5RcDPCleulFzpeSv+xDbwg9AhQ3uGTKTL11esibyltF3WGsLnm5X+bpLL07nLVyfEn/uN+SbouDsMnDxJ1Ik5LqccN77luVq+jn4m9mpZK+5pY3AA1ltJqQSyRmgp73BY2DrBFf5gkIGUyLTQF1i349U4xaPnso98wjaWtSQmDxo685m4zvVH87V2RQ\=\=
       - ADMIN_USERNAME=ADMIN
       - ADMIN_PASSWORD=PancreasRunner
+      - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+      - AWS_SECRET_KEY=${AWS_SECRET_KEY}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_BUCKET=${AWS_BUCKET}
 volumes:
   sentidosdb-data:
     driver: local

@@ -47,14 +47,6 @@ public class S3Service {
         }
     }
 
-    // @Async
-    // public String getObject(String fileName) {
-    //     if (!amazonS3.doesObjectExist(this.s3BucketName, fileName))
-    //         return "File does not exist";
-    //     log.info("Generating pre-signed URL for file name {}", fileName);
-    //     return generateUrl(fileName, HttpMethod.GET);
-    // }
-
     @Async
     public Map<String, ?> putObject(String extension) {
         String fileName = UUID.randomUUID().toString() + extension;
@@ -62,7 +54,6 @@ public class S3Service {
         String generatedUrl = generateUrl(fileName, HttpMethod.PUT);
         String objectUrl = "https://" + this.s3BucketName + ".s3.amazonaws.com/" + fileName;
         Map<String, String> map = new HashMap<String, String>();
-
         map.put("uploadUrl", generatedUrl);
         map.put("objectUrl", objectUrl);
         return map;
